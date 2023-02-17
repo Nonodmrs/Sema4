@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Interaction entre Python et JavaScript</title>
+    </head>
+    <body>
+        <h1>Lancez un script Python</h1>
+        <form action="{{url_for('run_script')}}" method="post">
+            <input type="text" name="script_name">
+            <button type="submit">Lancer</button>
+        </form>
+        <div id="output">
+            <!-- Output du script sera affiché ici -->
+        </div>
+        <script>
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const script_name = formData.get("script_name");
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(text => {
+                    document.querySelector("#output").innerHTML = text;
+                });
+            });
+        </script>
+    </body>
+</html>
